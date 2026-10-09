@@ -16,7 +16,7 @@ const publicPath = path.join(root, 'public')
 app.disable('x-powered-by')
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: true,
     credentials: true,
   })
 )
