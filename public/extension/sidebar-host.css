@@ -1,0 +1,128 @@
+/* Squeeze effect for host webpage */
+html.shield-squeeze-active {
+  width: calc(100vw - 420px) !important;
+  max-width: calc(100vw - 420px) !important;
+  margin-right: 420px !important;
+  box-sizing: border-box !important;
+  overflow-x: hidden !important;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), max-width 0.3s cubic-bezier(0.16, 1, 0.3, 1), margin-right 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+html.shield-squeeze-active body,
+body.shield-squeeze-active {
+  width: calc(100vw - 420px) !important;
+  max-width: calc(100vw - 420px) !important;
+  margin-right: 420px !important;
+  box-sizing: border-box !important;
+  overflow-x: hidden !important;
+  position: relative !important;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), max-width 0.3s cubic-bezier(0.16, 1, 0.3, 1), margin-right 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Squeeze Sidebar Iframe Container */
+#shield-squeeze-sidebar-frame {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 420px !important;
+  height: 100% !important;
+  max-height: 100vh !important;
+  border: none !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: -10px 0 35px rgba(0, 0, 0, 0.5) !important;
+  z-index: 2147483646 !important;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transform: translateX(100%) !important;
+  background: #0d121a !important;
+  color-scheme: dark !important;
+  overflow: hidden !important;
+}
+
+#shield-squeeze-sidebar-frame.shield-open {
+  transform: translateX(0) !important;
+}
+
+/* Floating on-demand launcher tab on right screen edge */
+#shield-floating-trigger {
+  position: fixed !important;
+  top: 50% !important;
+  right: 0 !important;
+  transform: translateY(-50%) !important;
+  z-index: 2147483645 !important;
+  background: rgba(11, 16, 29, 0.9) !important;
+  backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(0, 229, 255, 0.35) !important;
+  border-right: none !important;
+  border-radius: 12px 0 0 12px !important;
+  padding: 12px 8px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 7px !important;
+  cursor: pointer !important;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.6), 0 0 12px rgba(0, 229, 255, 0.15) !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+#shield-floating-trigger:hover {
+  background: rgba(15, 23, 42, 0.98) !important;
+  border-color: #00e5ff !important;
+  padding-left: 12px !important;
+  box-shadow: -6px 0 24px rgba(0, 229, 255, 0.4) !important;
+}
+#shield-floating-trigger svg {
+  width: 17px !important;
+  height: 17px !important;
+  color: #00e5ff !important;
+  filter: drop-shadow(0 0 6px rgba(0, 229, 255, 0.5)) !important;
+}
+#shield-floating-trigger span {
+  writing-mode: vertical-rl !important;
+  font-family: system-ui, -apple-system, sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  color: #cbd5e1 !important;
+}
+#shield-floating-trigger.shield-hidden {
+  display: none !important;
+}
+
+/* Snipping Tool Fullscreen Overlay */
+#shield-snip-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2147483647 !important;
+  background: rgba(10, 15, 25, 0.65) !important;
+  backdrop-filter: blur(2px) !important;
+  cursor: crosshair !important;
+  user-select: none !important;
+}
+
+#shield-snip-box {
+  position: absolute !important;
+  border: 2px dashed #38bdf8 !important;
+  background: rgba(56, 189, 248, 0.12) !important;
+  box-shadow: 0 0 0 99999px rgba(0, 0, 0, 0.55), 0 0 24px rgba(56, 189, 248, 0.4) !important;
+  pointer-events: none !important;
+}
+
+#shield-snip-tip {
+  position: fixed !important;
+  top: 24px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  background: #0f172a !important;
+  border: 1px solid #38bdf8 !important;
+  color: #f8fafc !important;
+  padding: 8px 18px !important;
+  border-radius: 999px !important;
+  font-family: system-ui, -apple-system, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6) !important;
+  pointer-events: none !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}

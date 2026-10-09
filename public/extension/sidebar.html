@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Shield AI — Threat Intelligence Sidebar</title>
+    <!-- Google Fonts: Plus Jakarta Sans for UI + JetBrains Mono for URLs & code -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="sidebar.css" />
+  </head>
+  <body>
+    <!-- Top Modern Glassmorphic Header -->
+    <header class="sidebar-header">
+      <div class="brand-wrap">
+        <div class="brand-logo-glow">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="m9 12 2 2 4-4" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="brand-text-col">
+          <div class="brand-title">SHIELD <span>AI</span></div>
+          <div class="brand-status-sub">
+            <span class="live-dot"></span> Shield Active &amp; Protecting
+          </div>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <button id="btn-toggle-autoscan" class="auto-scan-pill" title="Toggle automatic real-time URL scanning">
+          <span class="pulse-dot"></span>
+          <span id="autoscan-label">Auto-Scan: ON</span>
+        </button>
+        <button id="btn-close-sidebar" class="btn-icon-close" title="Close Sidebar (Restore Full Page Margin)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- High-Impact Action Ribbon -->
+    <div class="action-ribbon">
+      <button id="btn-start-snip" class="btn-snip-area" title="Click and drag to crop any QR code, login box, or shady element">
+        <div class="btn-snip-glow"></div>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 3v3m0 12v3m12-18v3m0 12v3M3 6h3m12 0h3M3 18h3m12 0h3"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>
+        <span>Scan Screen Area</span>
+      </button>
+
+      <button id="btn-rescan-page" class="btn-action-quiet" title="Re-scan active page URL">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+          <path d="M3 3v5h5"/>
+          <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/>
+          <path d="M16 21h5v-5"/>
+        </svg>
+        <span>Re-scan</span>
+      </button>
+    </div>
+
+    <!-- Scrollable Main Panel -->
+    <main class="sidebar-scroll-body">
+
+      <!-- Active Page URL Auto-Scan Card -->
+      <section id="url-scan-card" class="hud-card safe">
+        <div class="hud-card-header">
+          <div class="hud-card-label">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+            <span>WEBSITE SAFETY CHECK</span>
+          </div>
+          <div class="hud-meta-badge">
+            <span class="hud-meta-dot"></span>
+            <span id="scan-timer-badge">Live Protected</span>
+          </div>
+        </div>
+
+        <!-- URL Pill Address Display -->
+        <div class="url-address-bar">
+          <svg class="url-lock-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          <span id="active-url-display" class="url-text">Reading active tab...</span>
+        </div>
+
+        <!-- Score Meter & Verdict Banner -->
+        <div class="verdict-banner">
+          <div class="score-dial-wrap">
+            <div id="url-risk-score" class="score-badge safe">--</div>
+            <div class="score-sub-label">RISK INDEX</div>
+          </div>
+          <div class="verdict-details">
+            <h4 id="url-verdict-title">Analyzing page safety...</h4>
+            <p id="url-verdict-desc">Shield is inspecting domain reputation, redirect hops, and brand homoglyphs.</p>
+          </div>
+        </div>
+
+        <!-- Threat Breakdown List -->
+        <div class="threat-flags-wrap">
+          <div class="section-micro-title">SAFETY CHECKS</div>
+          <div id="url-flags-container" class="flags-list"></div>
+        </div>
+      </section>
+
+      <!-- Snipped Area Context Scanner Card (Hidden until an area is snipped) -->
+      <section id="snip-scan-card" class="hud-card snip-card" style="display: none;">
+        <div class="hud-card-header">
+          <div class="hud-card-label" style="color: var(--cyan);">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"/>
+            </svg>
+            <span>SCANNED SCREEN AREA</span>
+          </div>
+          <button id="btn-clear-snip" class="btn-clear-pill">Clear</button>
+        </div>
+
+        <div class="snip-viewfinder">
+          <div class="snip-img-container">
+            <img id="snip-thumbnail" class="snippet-img" alt="Snipped area" />
+            <div class="viewfinder-corner tl"></div>
+            <div class="viewfinder-corner tr"></div>
+            <div class="viewfinder-corner bl"></div>
+            <div class="viewfinder-corner br"></div>
+          </div>
+          <div class="snippet-meta-col">
+            <div class="snip-badge-row">
+              <span id="snip-dimensions-tag" class="dim-pill">0 × 0 px</span>
+              <span class="dim-pill vision-tag">AI Vision Check</span>
+            </div>
+            <h5 id="snip-threat-type" class="snip-threat-heading">Inspecting Snippet...</h5>
+            <p id="snip-meta-desc" class="snip-meta-desc">Decoding visual context, reading typography, and checking for quishing...</p>
+            <div id="snip-status-indicator" class="inspecting-loader">
+              <span class="loader-ring"></span>
+              <span>Running OCR & Quishing Check...</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="verdict-banner">
+          <div class="score-dial-wrap">
+            <div id="snip-risk-score" class="score-badge safe">--</div>
+            <div class="score-sub-label">RISK INDEX</div>
+          </div>
+          <div class="verdict-details">
+            <h4 id="snip-verdict-title">Processing visual context</h4>
+            <p id="snip-verdict-desc">Evaluating QR matrices, fraudulent brand typography, and credential harvesting.</p>
+          </div>
+        </div>
+
+        <div class="threat-flags-wrap">
+          <div class="section-micro-title">WHAT WAS DETECTED</div>
+          <div id="snip-flags-container" class="flags-list"></div>
+        </div>
+      </section>
+
+
+    </main>
+
+    <!-- Bottom Copilot Dock with Quick Suggested Prompts -->
+    <footer class="copilot-dock">
+      <!-- Quick Prompt Suggestion Chips -->
+      <div class="prompt-chips-row">
+        <button class="prompt-chip" data-query="Is this page safe to enter my password?">
+          🔑 Safe for password?
+        </button>
+        <button class="prompt-chip" data-query="Why did Shield give this risk score?">
+          ❓ Explain risk score
+        </button>
+        <button class="prompt-chip" data-query="Check if this domain is impersonating a brand">
+          🏢 Real brand?
+        </button>
+      </div>
+
+      <!-- Live Chat Messages Log -->
+      <div id="chat-messages-container" style="display: none; flex-direction: column; gap: 4px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 4px; font-size: 10px; font-weight: 700; color: var(--cyan);">
+          <span>✦ SHIELD AI ASSISTANT</span>
+          <button id="btn-minimize-chat" type="button" style="background: rgba(255,255,255,0.06); border: 1px solid var(--border-subtle); color: var(--text-muted); border-radius: 4px; padding: 2px 7px; font-size: 9.5px; cursor: pointer;">✕ Minimize</button>
+        </div>
+        <div id="chat-messages" class="copilot-messages"></div>
+      </div>
+
+      <!-- Chat Input Field -->
+      <div class="chat-input-row">
+        <div class="chat-input-shell">
+          <svg class="chat-sparkle-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3z"/>
+          </svg>
+          <input id="chat-input" type="text" placeholder="Ask Shield AI about this page..." />
+        </div>
+        <button id="btn-send-chat" type="button" class="btn-send-dock" title="Send message to Shield AI">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
+    </footer>
+
+    <script type="module" src="sidebar.js"></script>
+    <script>
+      // Prompt chips handler
+      document.querySelectorAll('.prompt-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const query = chip.getAttribute('data-query');
+          const input = document.getElementById('chat-input');
+          const sendBtn = document.getElementById('btn-send-chat');
+          if (input && sendBtn && query) {
+            input.value = query;
+            sendBtn.click();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

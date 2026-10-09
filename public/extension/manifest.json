@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "Shield AI - Autonomous Threat Hunter",
+  "version": "3.0.0",
+  "description": "Autonomous threat hunting, real-time phishing detection, and scam forensics powered by Shield AI.",
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "http://localhost:3000/*",
+    "http://localhost:5173/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Shield AI - Autonomous Threat Hunter"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "sidebar.html",
+        "sidebar.js",
+        "sidebar.css",
+        "ui.css",
+        "detector.js",
+        "warning.html"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}

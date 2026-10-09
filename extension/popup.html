@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sentinel AI Threat Scanner</title>
+  <style>
+    /* CSS Reset & Dark Mode Foundation */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      width: 380px;
+      min-height: 360px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #060913;
+      color: #e2e8f0;
+      padding: 16px;
+      margin: 0;
+      line-height: 1.5;
+      background-image:
+        radial-gradient(ellipse 90% 45% at 50% -10%, rgba(99, 102, 241, 0.22), transparent),
+        radial-gradient(circle at 100% 100%, rgba(6, 182, 212, 0.12), transparent 40%);
+      background-attachment: fixed;
+    }
+
+    /* Tailwind-compatible Utility Classes */
+    .flex { display: flex; }
+    .inline-flex { display: inline-flex; }
+    .items-center { align-items: center; }
+    .items-start { align-items: flex-start; }
+    .justify-center { justify-content: center; }
+    .justify-between { justify-content: space-between; }
+    .flex-col { flex-direction: column; }
+    .flex-wrap { flex-wrap: wrap; }
+    .shrink-0 { flex-shrink: 0; }
+    .gap-1 { gap: 4px; }
+    .gap-1\.5 { gap: 6px; }
+    .gap-2 { gap: 8px; }
+    .gap-2\.5 { gap: 10px; }
+    .gap-3 { gap: 12px; }
+    .gap-4 { gap: 16px; }
+    .space-y-3 > * + * { margin-top: 12px; }
+    .space-y-4 > * + * { margin-top: 16px; }
+
+    .w-full { width: 100%; }
+    .w-2 { width: 8px; }
+    .h-2 { height: 8px; }
+    .w-4 { width: 16px; }
+    .h-4 { height: 16px; }
+    .w-5 { width: 20px; }
+    .h-5 { height: 20px; }
+    .w-10 { width: 40px; }
+    .h-10 { height: 40px; }
+    .w-14 { width: 56px; }
+    .h-14 { height: 56px; }
+
+    .rounded-md { border-radius: 6px; }
+    .rounded-lg { border-radius: 8px; }
+    .rounded-xl { border-radius: 12px; }
+    .rounded-2xl { border-radius: 16px; }
+    .rounded-full { border-radius: 9999px; }
+
+    .p-2 { padding: 8px; }
+    .p-3 { padding: 12px; }
+    .p-4 { padding: 16px; }
+    .px-2 { padding-left: 8px; padding-right: 8px; }
+    .py-0\.5 { padding-top: 2px; padding-bottom: 2px; }
+    .px-2\.5 { padding-left: 10px; padding-right: 10px; }
+    .py-1 { padding-top: 4px; padding-bottom: 4px; }
+    .py-3 { padding-top: 12px; padding-bottom: 12px; }
+    .px-4 { padding-left: 16px; padding-right: 16px; }
+
+    .text-xs { font-size: 11px; line-height: 16px; }
+    .text-sm { font-size: 13px; line-height: 18px; }
+    .text-base { font-size: 15px; line-height: 22px; }
+    .text-lg { font-size: 18px; line-height: 24px; }
+    .text-xl { font-size: 20px; line-height: 28px; }
+    .text-2xl { font-size: 24px; line-height: 30px; }
+
+    .font-normal { font-weight: 400; }
+    .font-medium { font-weight: 500; }
+    .font-semibold { font-weight: 600; }
+    .font-bold { font-weight: 700; }
+    .font-extrabold { font-weight: 800; }
+    .font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+
+    .uppercase { text-transform: uppercase; }
+    .tracking-wide { letter-spacing: 0.025em; }
+    .tracking-wider { letter-spacing: 0.05em; }
+    .tracking-widest { letter-spacing: 0.1em; }
+    .text-center { text-align: center; }
+    .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* Colors & Dark Surfaces */
+    .text-white { color: #ffffff; }
+    .text-slate-200 { color: #e2e8f0; }
+    .text-slate-300 { color: #cbd5e1; }
+    .text-slate-400 { color: #94a3b8; }
+    .text-slate-500 { color: #64748b; }
+    .text-indigo-300 { color: #a5b4fc; }
+    .text-indigo-400 { color: #818cf8; }
+    .text-cyan-300 { color: #67e8f9; }
+    .text-cyan-400 { color: #22d3ee; }
+    .text-emerald-300 { color: #6ee7b7; }
+    .text-emerald-400 { color: #34d399; }
+    .text-amber-300 { color: #fcd34d; }
+    .text-amber-400 { color: #fbbf24; }
+    .text-rose-300 { color: #fda4af; }
+    .text-rose-400 { color: #fb7185; }
+
+    .bg-slate-900 { background-color: #0f172a; }
+    .bg-slate-800 { background-color: #1e293b; }
+    .border { border-width: 1px; border-style: solid; }
+    .border-t { border-top-width: 1px; border-top-style: solid; }
+    .border-slate-800 { border-color: rgba(30, 41, 59, 0.9); }
+    .border-white-5 { border-color: rgba(255, 255, 255, 0.06); }
+    .border-white-10 { border-color: rgba(255, 255, 255, 0.12); }
+
+    /* Glassmorphism SOC Cards */
+    .glass-card {
+      background: linear-gradient(135deg, rgba(16, 24, 46, 0.8), rgba(9, 14, 28, 0.9));
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.5);
+    }
+
+    .subcard {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    /* Scan Action Button */
+    .btn-scan {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #06b6d4 100%);
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      letter-spacing: 0.025em;
+      box-shadow: 0 4px 18px rgba(79, 70, 229, 0.4);
+      transition: all 0.2s ease-in-out;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-scan:hover:not(:disabled) {
+      background: linear-gradient(135deg, #4338ca 0%, #6d28d9 50%, #0891b2 100%);
+      box-shadow: 0 6px 22px rgba(79, 70, 229, 0.55);
+      transform: translateY(-1px);
+    }
+    .btn-scan:active:not(:disabled) {
+      transform: translateY(1px);
+    }
+    .btn-scan:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    /* Links & Buttons */
+    .dashboard-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #818cf8;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.15s ease;
+      cursor: pointer;
+    }
+    .dashboard-link:hover {
+      color: #c7d2fe;
+      text-decoration: underline;
+    }
+
+    /* Animations */
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
+      50% { box-shadow: 0 0 0 8px rgba(99, 102, 241, 0); }
+    }
+    .pulse-btn {
+      animation: pulseGlow 1.8s infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .animate-spin {
+      animation: spin 1s linear infinite;
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body class="space-y-4">
+
+  <!-- Header: Sentinel SOC Brand -->
+  <div class="flex items-center justify-between">
+    <div class="flex items-center gap-2.5">
+      <div class="relative flex items-center justify-center w-10 h-10 rounded-xl" style="background: linear-gradient(135deg, #4f46e5, #06b6d4); padding: 1.5px; box-shadow: 0 0 16px rgba(79, 70, 229, 0.35);">
+        <div class="w-full h-full rounded-xl flex items-center justify-center" style="background: #060913;">
+          <svg class="w-5 h-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <span class="w-2 h-2 rounded-full bg-emerald-400" style="position: absolute; top: -1px; right: -1px; box-shadow: 0 0 6px #34d399;"></span>
+      </div>
+      <div>
+        <div class="flex items-center gap-1.5">
+          <span class="text-base font-extrabold tracking-wider text-white">SENTINEL</span>
+          <span class="px-1.5 py-0.5 text-[9px] font-bold font-mono uppercase rounded" style="background: rgba(99, 102, 241, 0.2); color: #a5b4fc; border: 1px solid rgba(99, 102, 241, 0.3);">MV3</span>
+        </div>
+        <p class="text-xs text-slate-400">AI Scam &amp; Phishing Detection</p>
+      </div>
+    </div>
+    <span class="text-xs font-mono text-slate-500">v3.0</span>
+  </div>
+
+  <!-- Primary Action Button: "Scan Active Tab" -->
+  <button id="scan-btn" class="w-full py-3 px-4 rounded-xl btn-scan flex items-center justify-center gap-2.5 text-sm">
+    <svg id="scan-icon" class="w-4 h-4 text-cyan-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"/>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+    <svg id="scan-spinner" class="w-4 h-4 text-white animate-spin hidden" viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" style="opacity: 0.25;"/>
+      <path fill="currentColor" style="opacity: 0.85;" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+    </svg>
+    <span id="scan-label">Scan Active Tab</span>
+  </button>
+
+  <!-- Pre-scan Information Message -->
+  <p id="status-msg" class="text-xs text-center font-mono text-slate-400">
+    Click above to extract webpage text and inspect for phishing, scams, and fraudulent vectors.
+  </p>
+
+  <!-- Scan Results Card (Revealed upon scan completion) -->
+  <div id="results-card" class="hidden glass-card rounded-xl p-4 space-y-3">
+    <!-- Top Score & Threat Type Banner -->
+    <div class="flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <!-- Radial Score Badge -->
+        <div id="score-ring" class="w-14 h-14 rounded-full flex flex-col items-center justify-center shrink-0" style="border: 3px solid #334155; background: rgba(15, 23, 42, 0.6);">
+          <span id="score-value" class="text-xl font-extrabold font-mono text-white">--</span>
+          <span class="text-[8px] font-mono text-slate-400 uppercase -mt-1">/ 100</span>
+        </div>
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">DETECTED THREAT</span>
+          <p id="threat-type" class="text-sm font-bold text-white truncate" style="max-width: 175px;">—</p>
+        </div>
+      </div>
+      <span id="risk-badge" class="px-2.5 py-1 text-xs font-mono font-bold rounded-full uppercase tracking-wider border shrink-0">
+        UNKNOWN
+      </span>
+    </div>
+
+    <!-- AI Verdict Summary -->
+    <div class="subcard rounded-lg p-3">
+      <div class="flex items-center gap-1.5 mb-1">
+        <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-400">Verdict Summary</span>
+      </div>
+      <p id="summary-text" class="text-xs text-slate-300" style="line-height: 1.55;">—</p>
+    </div>
+
+    <!-- Brand Impersonation Warning (Conditional) -->
+    <div id="brand-row" class="hidden flex items-center gap-2">
+      <span class="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Impersonating:</span>
+      <span id="brand-name" class="px-2 py-0.5 text-xs font-mono font-bold rounded-full" style="background: rgba(244, 63, 94, 0.2); color: #fda4af; border: 1px solid rgba(244, 63, 94, 0.35);"></span>
+    </div>
+
+    <!-- Red Flags Pill List -->
+    <div id="flags-container" class="hidden flex flex-wrap gap-1.5"></div>
+
+    <!-- Action Bar: Link that opens local dashboard in a new tab -->
+    <div class="border-t border-slate-800 pt-3 flex items-center justify-between">
+      <a id="dashboard-link" href="http://localhost:3000" class="dashboard-link" title="Open Sentinel Dashboard in browser">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/>
+          <line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+        <span>Open Local Dashboard</span>
+      </a>
+      <span id="latency-tag" class="text-xs font-mono text-slate-500"></span>
+    </div>
+  </div>
+
+  <!-- Error Alert Card (Conditional) -->
+  <div id="error-card" class="hidden glass-card rounded-xl p-3" style="border-color: rgba(244, 63, 94, 0.4); background: rgba(30, 10, 18, 0.85);">
+    <div class="flex items-start gap-2.5">
+      <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background: rgba(244, 63, 94, 0.2); border: 1px solid rgba(244, 63, 94, 0.4);">
+        <svg class="w-4 h-4 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+      </div>
+      <div>
+        <p class="text-xs font-bold text-rose-300">Scan Failed</p>
+        <p id="error-msg" class="text-xs text-slate-400 mt-0.5 leading-snug">—</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

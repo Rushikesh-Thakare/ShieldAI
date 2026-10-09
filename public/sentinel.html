@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SENTINEL // Enterprise AI Scam & Phishing Defense Platform</title>
+  <meta name="description" content="Autonomous AI Threat Intelligence & Phishing Detection Platform. Unravels redirect chains, inspects VirusTotal and Safe Browsing telemetry, and exposes social engineering with Gemini AI." />
+  
+  <!-- Modern Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            sentinel: {
+              950: '#060813',
+              900: '#0b1021',
+              850: '#101730',
+              800: '#16203d',
+              700: '#233159',
+              accent: '#6366f1',
+              cyan: '#06b6d4',
+              emerald: '#10b981',
+              amber: '#f59e0b',
+              rose: '#f43f5e',
+            },
+          },
+          keyframes: {
+            scanline: {
+              '0%': { transform: 'translateY(-100%)' },
+              '100%': { transform: 'translateY(100%)' },
+            },
+            radarPulse: {
+              '0%': { transform: 'scale(0.95)', opacity: '0.8' },
+              '50%': { transform: 'scale(1.05)', opacity: '0.3' },
+              '100%': { transform: 'scale(0.95)', opacity: '0.8' },
+            },
+            glowPulse: {
+              '0%, 100%': { opacity: '0.4' },
+              '50%': { opacity: '0.8' },
+            },
+          },
+          animation: {
+            scanline: 'scanline 2s linear infinite',
+            'radar-pulse': 'radarPulse 3s ease-in-out infinite',
+            'glow-pulse': 'glowPulse 4s ease-in-out infinite',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* Custom Enterprise Cyber Aesthetics */
+    body {
+      background-color: #060813;
+      background-image: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.15), transparent),
+        radial-gradient(circle at 100% 40%, rgba(6, 182, 212, 0.08), transparent 45%),
+        radial-gradient(circle at 0% 80%, rgba(244, 63, 94, 0.06), transparent 40%);
+    }
+
+    .cyber-grid {
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    }
+
+    .soc-card {
+      background: linear-gradient(135deg, rgba(16, 23, 48, 0.75), rgba(11, 16, 33, 0.85));
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    .soc-card-active {
+      border-color: rgba(99, 102, 241, 0.4);
+      box-shadow: 0 0 30px rgba(99, 102, 241, 0.15);
+    }
+
+    .tab-selected {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(6, 182, 212, 0.15));
+      color: #ffffff;
+      border: 1px solid rgba(99, 102, 241, 0.5);
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.25);
+    }
+
+    /* Inline Highlight Marks conforming to requirements */
+    mark.hl-yellow {
+      background-color: rgba(234, 179, 8, 0.25);
+      color: #fef08a;
+      border: 1px solid rgba(234, 179, 8, 0.5);
+      border-radius: 4px;
+      padding: 1px 4px;
+      cursor: help;
+      transition: all 0.2s ease;
+    }
+    mark.hl-yellow:hover {
+      background-color: rgba(234, 179, 8, 0.45);
+      box-shadow: 0 0 10px rgba(234, 179, 8, 0.4);
+    }
+
+    mark.hl-red {
+      background-color: rgba(239, 68, 68, 0.25);
+      color: #fecaca;
+      border: 1px solid rgba(239, 68, 68, 0.5);
+      border-radius: 4px;
+      padding: 1px 4px;
+      cursor: help;
+      transition: all 0.2s ease;
+    }
+    mark.hl-red:hover {
+      background-color: rgba(239, 68, 68, 0.45);
+      box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+    }
+
+    mark.hl-blue {
+      background-color: rgba(59, 130, 246, 0.25);
+      color: #bfdbfe;
+      border: 1px solid rgba(59, 130, 246, 0.5);
+      border-radius: 4px;
+      padding: 1px 4px;
+      cursor: help;
+      transition: all 0.2s ease;
+    }
+    mark.hl-blue:hover {
+      background-color: rgba(59, 130, 246, 0.45);
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+    }
+
+    #gauge-needle-arc {
+      transition: stroke-dashoffset 1.4s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.6s ease;
+    }
+
+    .drop-highlight {
+      border-color: #06b6d4 !important;
+      background: rgba(6, 182, 212, 0.08) !important;
+    }
+
+    /* Live Cyber Threat Radar Aesthetics */
+    @keyframes radar-sweep {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .radar-sweep-beam {
+      animation: radar-sweep 4s linear infinite;
+    }
+    @keyframes blip-wave-anim {
+      0% { transform: scale(0.6); opacity: 0.9; }
+      50% { transform: scale(1.8); opacity: 0.2; }
+      100% { transform: scale(0.6); opacity: 0.9; }
+    }
+    .blip-pulse-wave {
+      animation: blip-wave-anim 2.2s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+    }
+
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(6, 8, 19, 0.8);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+  </style>
+</head>
+<body class="min-h-screen font-sans text-slate-200 antialiased selection:bg-indigo-500/30 selection:text-indigo-200 relative overflow-x-hidden">
+  
+  <!-- Subtle Matrix Cyber Grid Background -->
+  <div class="fixed inset-0 cyber-grid pointer-events-none -z-10"></div>
+
+  <!-- Top SOC Telemetry Header -->
+  <header class="border-b border-white/10 bg-sentinel-950/80 backdrop-blur-xl sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand & Platform Identifier -->
+      <div class="flex items-center gap-3.5">
+        <div class="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-600 to-cyan-500 p-[1px] shadow-lg shadow-indigo-500/25">
+          <div class="w-full h-full bg-sentinel-950 rounded-[11px] flex items-center justify-center">
+            <svg class="w-5 h-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="M9 12l2 2 4-4"/>
+            </svg>
+          </div>
+          <div class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping"></div>
+          <div class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full"></div>
+        </div>
+
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xl font-extrabold tracking-wider text-white">SENTINEL</span>
+            <span class="px-2 py-0.5 text-[10px] font-bold font-mono tracking-widest uppercase bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 rounded">SOC v2.5</span>
+          </div>
+          <p class="text-[11px] font-medium text-slate-400 tracking-tight">Autonomous AI Scam & Phishing Defense Platform</p>
+        </div>
+      </div>
+
+      <!-- Live Telemetry Status Bar -->
+      <div class="hidden md:flex items-center gap-5 text-xs font-mono">
+        <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/10">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span class="text-slate-400">Gemini Flash:</span>
+          <span id="header-gemini-status" class="text-emerald-400 font-semibold">ONLINE</span>
+        </div>
+
+        <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/10">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span class="text-slate-400">VirusTotal v3:</span>
+          <span id="header-vt-status" class="text-emerald-400 font-semibold">SYNCED</span>
+        </div>
+
+        <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/10">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span class="text-slate-400">Safe Browsing:</span>
+          <span id="header-sb-status" class="text-emerald-400 font-semibold">ACTIVE</span>
+        </div>
+      </div>
+
+      <!-- Navigation Action Controls (Auth & History) -->
+      <div class="flex items-center gap-2.5">
+        <!-- Quick Session Reset -->
+        <button id="reset-session-btn" class="flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg transition" title="Clear current investigation and start fresh">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 12a9 9 0 109-9 9.75 9.75 0 00-6.74 2.74L3 8"/>
+            <path d="M3 3v5h5"/>
+          </svg>
+          <span class="hidden sm:inline">Reset</span>
+        </button>
+
+        <!-- Scan History Drawer Toggle Button -->
+        <button id="nav-history-btn" class="hidden flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-cyan-300 hover:text-cyan-200 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 rounded-lg transition">
+          <svg class="w-3.5 h-3.5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+          <span>Scan History</span>
+          <span id="nav-history-count" class="px-1.5 py-0.2 bg-cyan-400/20 text-cyan-200 rounded-full text-[10px] font-mono font-bold">0</span>
+        </button>
+
+        <!-- User Authenticated Pill -->
+        <div id="nav-user-pill" class="hidden flex items-center gap-2 px-2.5 py-1 bg-white/[0.04] border border-white/10 rounded-lg text-xs font-mono text-slate-300">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span id="nav-user-email" class="max-w-[120px] truncate text-slate-200"></span>
+          <button id="nav-signout-btn" class="text-slate-400 hover:text-rose-400 ml-1 transition" title="Sign Out">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Login / Signup Button (When unauthenticated) -->
+        <button id="nav-auth-btn" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 rounded-lg shadow-md shadow-indigo-500/20 transition active:scale-95">
+          <svg class="w-3.5 h-3.5 text-cyan-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          <span>Log In / Sign Up</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Main Threat Hunting Workspace -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <!-- Mission Command Hero Strip -->
+    <section class="text-center max-w-3xl mx-auto space-y-3">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-semibold tracking-wide uppercase">
+        <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+        Zero-Trust Threat Telemetry Pipeline
+      </div>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
+        Neutralize Phishing, Scams & <span class="bg-gradient-to-r from-cyan-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">Deceptive Vectors</span>
+      </h1>
+      <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+        Autonomous heuristic inspection for suspicious communications, unwinding shortened redirect chains, multi-engine reputation checks, and cognitive social engineering forensics.
+      </p>
+    </section>
+
+    <!-- Trending Threats Live Ticker -->
+    <section class="soc-card rounded-xl p-4">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+          <span class="text-xs font-bold font-mono tracking-wider uppercase text-slate-300">Trending Threats</span>
+        </div>
+        <div class="h-px flex-1 bg-white/10"></div>
+        <span id="trending-refresh-time" class="text-[10px] font-mono text-slate-500">Loading...</span>
+      </div>
+
+      <div id="trending-ticker" class="flex gap-3 overflow-x-auto pb-2 scrollbar-thin">
+        <div class="text-xs text-slate-500 italic py-2">Loading trending threats from global threat lake...</div>
+      </div>
+    </section>
+
+    <!-- Domain Reputation Dashboard -->
+    <section class="soc-card rounded-xl p-5">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="m4.93 4.93 4.24 4.24"/>
+            <path d="m14.83 9.17 4.24-4.24"/>
+            <path d="m14.83 14.83 4.24 4.24"/>
+            <path d="m9.17 14.83-4.24 4.24"/>
+          </svg>
+          <span class="text-xs font-bold font-mono tracking-wider uppercase text-slate-300">Domain Reputation Dashboard</span>
+        </div>
+        <button id="refresh-domain-reputation" class="text-[10px] font-mono text-cyan-400 hover:text-cyan-300 transition">Refresh</button>
+      </div>
+
+      <div id="domain-reputation-stats" class="grid grid-cols-3 gap-3 mb-4">
+        <div class="bg-white/[0.02] rounded-lg p-3 border border-white/5">
+          <div class="text-[10px] font-mono text-slate-500 uppercase">Total Domains</div>
+          <div id="stat-total-domains" class="text-lg font-bold text-white mt-1">--</div>
+        </div>
+        <div class="bg-white/[0.02] rounded-lg p-3 border border-white/5">
+          <div class="text-[10px] font-mono text-slate-500 uppercase">Total Incidents</div>
+          <div id="stat-total-incidents" class="text-lg font-bold text-rose-400 mt-1">--</div>
+        </div>
+        <div class="bg-white/[0.02] rounded-lg p-3 border border-white/5">
+          <div class="text-[10px] font-mono text-slate-500 uppercase">Avg Risk Score</div>
+          <div id="stat-avg-risk" class="text-lg font-bold text-amber-400 mt-1">--</div>
+        </div>
+      </div>
+
+      <div id="domain-reputation-list" class="space-y-2 max-h-48 overflow-y-auto">
+        <div class="text-xs text-slate-500 italic py-2">Loading domain reputation data...</div>
+      </div>
+    </section>
+
+    <!-- Investigation Grid (Input Terminal + Realtime Risk Radar) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+      <!-- LEFT: Threat Ingestion Terminal (7 Cols) -->
+      <div class="lg:col-span-7 soc-card rounded-2xl p-6 relative flex flex-col justify-between">
+        
+        <div>
+          <!-- Tab Navigation -->
+          <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-5">
+            <div class="flex space-x-1.5 p-1 bg-black/40 rounded-xl border border-white/5" role="tablist">
+              
+              <button id="tab-text" data-tab="text" role="tab" aria-selected="true" class="tab-selected px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold flex items-center gap-2 transition">
+                <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+                <span>Text / Email / SMS</span>
+              </button>
+
+              <button id="tab-url" data-tab="url" role="tab" aria-selected="false" class="text-slate-400 hover:text-white px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold flex items-center gap-2 transition">
+                <svg class="w-4 h-4 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="2" y1="12" x2="22" y2="12"/>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                </svg>
+                <span>Suspicious URL</span>
+              </button>
+
+              <button id="tab-qr" data-tab="qr" role="tab" aria-selected="false" class="text-slate-400 hover:text-white px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold flex items-center gap-2 transition">
+                <svg class="w-4 h-4 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="7" height="7"/>
+                  <rect x="14" y="3" width="7" height="7"/>
+                  <rect x="14" y="14" width="7" height="7"/>
+                  <rect x="3" y="14" width="7" height="7"/>
+                </svg>
+                <span>Upload QR (Quishing)</span>
+              </button>
+
+            </div>
+
+            <!-- Character/Payload Indicator -->
+            <span id="payload-meta" class="text-[11px] font-mono text-slate-500 hidden sm:block">0 bytes</span>
+          </div>
+
+          <!-- TAB PANEL 1: TEXT / EMAIL / SMS -->
+          <div id="panel-text" class="space-y-4">
+            <div class="relative">
+              <textarea id="input-text" rows="8" placeholder="Paste the suspicious email header, WhatsApp message, bank SMS alert, or conversation transcript here..." class="w-full bg-black/40 border border-white/10 rounded-xl p-4 text-sm font-mono text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/30 transition resize-y"></textarea>
+            </div>
+
+            <!-- Quick Simulation Presets -->
+            <div class="flex flex-wrap items-center gap-2 pt-1">
+              <span class="text-xs font-medium text-slate-400 flex items-center gap-1">
+                <svg class="w-3.5 h-3.5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+                Simulate Vector:
+              </span>
+              <button type="button" class="sample-preset-btn px-2.5 py-1 text-xs font-mono bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white rounded border border-white/10 transition" data-sample="bank_kyc">🏦 Bank KYC Phish</button>
+              <button type="button" class="sample-preset-btn px-2.5 py-1 text-xs font-mono bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white rounded border border-white/10 transition" data-sample="delivery_scam">📦 Delivery Smish</button>
+              <button type="button" class="sample-preset-btn px-2.5 py-1 text-xs font-mono bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white rounded border border-white/10 transition" data-sample="ceo_giftcard">💼 Executive BEC</button>
+              <button type="button" class="sample-preset-btn px-2.5 py-1 text-xs font-mono bg-white/5 hover:bg-white/10 text-emerald-400 hover:text-emerald-300 rounded border border-emerald-500/20 transition" data-sample="legit_notice">✅ Benign Memo</button>
+            </div>
+          </div>
+
+          <!-- TAB PANEL 2: SUSPICIOUS URL -->
+          <div id="panel-url" class="space-y-4 hidden">
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                <svg class="w-5 h-5 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                </svg>
+              </div>
+              <input id="input-url" type="url" placeholder="https://bit.ly/secure-login or paypa1-auth-verify.xyz/account" class="w-full bg-black/40 border border-white/10 rounded-xl pl-11 pr-4 py-4 text-sm font-mono text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/30 transition" />
+            </div>
+
+            <div class="rounded-xl bg-white/[0.02] border border-white/5 p-4 flex items-start gap-3">
+              <svg class="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="16" x2="12" y2="12"/>
+                <line x1="12" y1="8" x2="12.01" y2="8"/>
+              </svg>
+              <div class="text-xs text-slate-400 leading-relaxed">
+                <p class="font-semibold text-slate-200">Autonomous Redirect Unwrapping</p>
+                <p>Sentinel safely traces bit.ly, tinyurl, t.co and multi-stage affiliate chains up to 10 hops server-side. The true malicious destination is exposed without exposing your IP or browser.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB PANEL 3: UPLOAD QR CODE -->
+          <div id="panel-qr" class="space-y-4 hidden">
+            <div id="qr-dropzone" class="border-2 border-dashed border-white/15 hover:border-indigo-500/60 bg-black/30 rounded-2xl p-8 flex flex-col items-center justify-center cursor-pointer transition relative group min-h-[220px]">
+              
+              <input id="input-qr-file" type="file" accept="image/*" class="sr-only" />
+
+              <!-- Empty Dropzone State -->
+              <div id="qr-drop-prompt" class="flex flex-col items-center text-center space-y-3">
+                <div class="w-14 h-14 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 group-hover:scale-110 transition">
+                  <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="17 8 12 3 7 8"/>
+                    <line x1="12" y1="3" x2="12" y2="15"/>
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold text-slate-200">Drop QR Code Image here, or <span class="text-cyan-400 underline decoration-dotted">Browse System</span></p>
+                  <p class="text-xs text-slate-500 mt-1">Supports PNG, JPEG, WEBP, BMP. Clipboard paste (Ctrl+V) supported anywhere.</p>
+                </div>
+              </div>
+
+              <!-- Active QR Image Preview -->
+              <div id="qr-preview-container" class="hidden flex-col items-center space-y-3 w-full">
+                <div class="relative rounded-xl overflow-hidden border border-white/20 shadow-2xl bg-black max-w-[260px]">
+                  <img id="qr-preview-img" src="" alt="Uploaded QR Code Preview" class="max-h-48 object-contain" />
+                  
+                  <!-- Holographic Scanline Overlay -->
+                  <div id="qr-hologram-scan" class="absolute inset-0 hidden pointer-events-none">
+                    <div class="w-full h-2 bg-cyan-400/80 shadow-[0_0_15px_#22d3ee] animate-scanline"></div>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                  <span id="qr-file-details" class="text-xs font-mono text-slate-300">image.png</span>
+                  <button type="button" id="qr-remove-btn" class="text-xs text-rose-400 hover:text-rose-300 underline font-medium">Clear Image</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Initiate Threat Hunt Button & Pipeline Indicator -->
+        <div class="mt-6 pt-5 border-t border-white/10 space-y-3">
+          <button id="scan-submit-btn" class="w-full py-4 px-6 rounded-xl font-bold text-white text-base tracking-wide bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-600 hover:from-indigo-500 hover:via-purple-500 hover:to-cyan-500 shadow-xl shadow-indigo-600/30 hover:shadow-indigo-500/50 transition-all duration-200 transform active:scale-[0.99] flex items-center justify-center gap-3 relative overflow-hidden group">
+            
+            <!-- Shimmer effect -->
+            <div class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+
+            <svg id="scan-btn-icon" class="w-5 h-5 text-cyan-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+
+            <svg id="scan-btn-spinner" class="w-5 h-5 text-white animate-spin hidden" viewBox="0 0 24 24" fill="none">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"/>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+            </svg>
+
+            <span id="scan-btn-label">INITIATE THREAT HUNT</span>
+            <span class="text-xs font-mono font-normal opacity-75 hidden sm:inline">(Ctrl + Enter)</span>
+          </button>
+
+          <!-- Live Pipeline Execution Steps -->
+          <div id="pipeline-live-feed" class="hidden rounded-xl bg-black/50 border border-white/5 p-3.5 space-y-2 text-xs font-mono">
+            <div id="pipe-step-1" class="flex items-center gap-2.5 text-slate-500">
+              <span class="pipe-bullet w-1.5 h-1.5 rounded-full bg-slate-600"></span>
+              <span>Vector Parsing & Steganography / QR Decoding</span>
+            </div>
+            <div id="pipe-step-2" class="flex items-center gap-2.5 text-slate-500">
+              <span class="pipe-bullet w-1.5 h-1.5 rounded-full bg-slate-600"></span>
+              <span>Redirect Matrix & HTTP Hop Chain Inspection</span>
+            </div>
+            <div id="pipe-step-3" class="flex items-center gap-2.5 text-slate-500">
+              <span class="pipe-bullet w-1.5 h-1.5 rounded-full bg-slate-600"></span>
+              <span>VirusTotal v3 & Safe Browsing Telemetry Sync</span>
+            </div>
+            <div id="pipe-step-4" class="flex items-center gap-2.5 text-slate-500">
+              <span class="pipe-bullet w-1.5 h-1.5 rounded-full bg-slate-600"></span>
+              <span>Gemini Cognitive Social Engineering Matrix</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Precision Risk Radar & Gauge (5 Cols) -->
+      <div class="lg:col-span-5 soc-card rounded-2xl p-6 relative flex flex-col items-center justify-between overflow-hidden">
+        
+        <!-- Ambient Radial Glow Accent -->
+        <div id="radar-glow-ambient" class="absolute -top-16 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full bg-slate-700/20 blur-3xl pointer-events-none transition-all duration-700"></div>
+
+        <div class="w-full flex items-center justify-between border-b border-white/10 pb-4 mb-2">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="m4.93 4.93 4.24 4.24"/>
+              <path d="m14.83 9.17 4.24-4.24"/>
+              <path d="m14.83 14.83 4.24 4.24"/>
+              <path d="m9.17 14.83-4.24 4.24"/>
+            </svg>
+            <span class="text-xs font-mono font-bold tracking-wider uppercase text-slate-300">Composite Threat Score</span>
+          </div>
+          <span id="threat-grade-pill" class="text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-slate-400">STANDBY</span>
+        </div>
+
+        <!-- High Precision SVG Gauge -->
+        <div class="relative w-full max-w-[320px] py-4 flex flex-col items-center justify-center">
+          <svg viewBox="0 0 240 140" class="w-full">
+            <defs>
+              <linearGradient id="gauge-gradient" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#10b981" />
+                <stop offset="50%" stop-color="#f59e0b" />
+                <stop offset="100%" stop-color="#ef4444" />
+              </linearGradient>
+              <filter id="gauge-glow-filter" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="4" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+
+            <!-- Background Track Arc -->
+            <path d="M 25 125 A 95 95 0 0 1 215 125" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="18" stroke-linecap="round" />
+
+            <!-- Active Gauge Needle Arc -->
+            <path id="gauge-needle-arc" d="M 25 125 A 95 95 0 0 1 215 125" fill="none" stroke="#64748b" stroke-width="18" stroke-linecap="round" stroke-dasharray="298.45" stroke-dashoffset="298.45" filter="url(#gauge-glow-filter)" />
+
+            <!-- Decorative Gauge Ticks -->
+            <g id="gauge-tick-marks" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"></g>
+          </svg>
+
+          <!-- Numeric Counter in Center of Arc -->
+          <div class="absolute inset-x-0 bottom-4 flex flex-col items-center text-center">
+            <div class="flex items-baseline">
+              <span id="gauge-numeric-score" class="text-6xl font-extrabold font-mono tracking-tighter text-white">--</span>
+              <span class="text-sm font-mono text-slate-500 ml-1">/100</span>
+            </div>
+            <p id="gauge-risk-status" class="text-xs font-semibold uppercase tracking-widest text-slate-400 mt-1">Awaiting Telemetry</p>
+          </div>
+        </div>
+
+        <!-- Threat Level Matrix Legend -->
+        <div class="w-full grid grid-cols-3 gap-2 text-center text-[10px] font-mono pt-3 border-t border-white/10">
+          <div class="p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+            <span class="block font-bold text-xs">0 - 34</span>
+            <span>BENIGN</span>
+          </div>
+          <div class="p-2 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400">
+            <span class="block font-bold text-xs">35 - 69</span>
+            <span>ELEVATED</span>
+          </div>
+          <div class="p-2 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400">
+            <span class="block font-bold text-xs">70 - 100</span>
+            <span>CRITICAL</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- LIVE CYBER THREAT RADAR WIDGET -->
+    <section id="cyber-threat-radar-section" class="soc-card rounded-2xl p-6 relative overflow-hidden space-y-6 border border-white/10 shadow-2xl">
+      
+      <!-- Ambient Radial Glow Accents -->
+      <div class="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-rose-500/10 blur-3xl pointer-events-none"></div>
+
+      <!-- Radar Header Bar -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4 relative z-10">
+        
+        <div class="flex items-center gap-3.5">
+          <div class="relative w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0">
+            <svg class="w-5 h-5 animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 2a10 10 0 0 1 10 10"/>
+              <path d="m4.93 4.93 4.24 4.24"/>
+              <path d="m14.83 9.17 4.24-4.24"/>
+            </svg>
+            <span class="absolute top-1 right-1 w-2 h-2 bg-rose-500 rounded-full animate-ping"></span>
+            <span class="absolute top-1 right-1 w-2 h-2 bg-rose-500 rounded-full"></span>
+          </div>
+
+          <div>
+            <div class="flex items-center gap-2.5">
+              <h2 class="text-base sm:text-lg font-extrabold text-white tracking-wide uppercase font-mono flex items-center gap-2">
+                Live Cyber Threat Radar
+              </h2>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30 animate-pulse">
+                ACTIVE RADAR
+              </span>
+            </div>
+            <p class="text-xs text-slate-400">Crowdsourced Threat Lake Telemetry &bull; Global Malicious Vector Activity</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 text-xs font-mono">
+          <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-black/40 border border-white/10 text-slate-300">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            <span>Signals:</span>
+            <span id="radar-threat-count" class="text-cyan-300 font-bold">0 Active</span>
+          </div>
+
+          <button id="radar-refresh-btn" type="button" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 transition active:scale-95" title="Refresh Live Threat Radar">
+            <svg id="radar-refresh-icon" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M23 4v6h-6"/>
+              <path d="M1 20v-6h6"/>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+            </svg>
+            <span>Sync Radar</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Radar Grid: Left Tactical Radar Scope (5 Cols), Right Top 5 Trending Domains (7 Cols) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center relative z-10">
+
+        <!-- Left: Holographic 360 Tactical Radar Scope -->
+        <div class="lg:col-span-5 flex flex-col items-center justify-center p-4 bg-black/40 rounded-xl border border-white/5 relative min-h-[300px]">
+          
+          <div class="relative w-[250px] h-[250px] sm:w-[270px] sm:h-[270px] rounded-full bg-[#040714] border-2 border-cyan-500/30 shadow-[0_0_40px_rgba(6,182,212,0.18)] flex items-center justify-center overflow-hidden">
+            
+            <!-- Concentric Range Target Rings -->
+            <div class="absolute inset-3 rounded-full border border-cyan-500/20 pointer-events-none"></div>
+            <div class="absolute inset-10 rounded-full border border-cyan-500/20 pointer-events-none"></div>
+            <div class="absolute inset-18 rounded-full border border-cyan-500/25 border-dashed pointer-events-none"></div>
+            <div class="absolute inset-26 rounded-full border border-cyan-500/15 pointer-events-none"></div>
+
+            <!-- Range Zone Labels -->
+            <span class="absolute top-4 text-[8px] font-mono text-cyan-500/40 pointer-events-none">ZONE CRITICAL</span>
+            <span class="absolute top-11 text-[8px] font-mono text-cyan-500/40 pointer-events-none">ZONE ELEVATED</span>
+            <span class="absolute top-19 text-[8px] font-mono text-cyan-500/40 pointer-events-none">ZONE BENIGN</span>
+
+            <!-- Cardinal Compass Axes -->
+            <div class="absolute inset-x-0 top-1/2 h-[1px] bg-cyan-500/20 pointer-events-none"></div>
+            <div class="absolute inset-y-0 left-1/2 w-[1px] bg-cyan-500/20 pointer-events-none"></div>
+            <div class="absolute inset-0 rotate-45 flex items-center justify-center pointer-events-none">
+              <div class="w-full h-[1px] bg-cyan-500/10"></div>
+            </div>
+            <div class="absolute inset-0 -rotate-45 flex items-center justify-center pointer-events-none">
+              <div class="w-full h-[1px] bg-cyan-500/10"></div>
+            </div>
+
+            <!-- Compass Degree Markings -->
+            <span class="absolute top-1 text-[9px] font-mono text-cyan-400 font-bold pointer-events-none">N 000°</span>
+            <span class="absolute bottom-1 text-[9px] font-mono text-cyan-400 font-bold pointer-events-none">S 180°</span>
+            <span class="absolute right-1 text-[9px] font-mono text-cyan-400 font-bold pointer-events-none">E 090°</span>
+            <span class="absolute left-1 text-[9px] font-mono text-cyan-400 font-bold pointer-events-none">W 270°</span>
+
+            <!-- Continuous Sweeping Radar Beam -->
+            <div class="absolute inset-0 rounded-full pointer-events-none radar-sweep-beam" style="background: conic-gradient(from 0deg, transparent 0deg, transparent 290deg, rgba(6, 182, 212, 0.05) 320deg, rgba(6, 182, 212, 0.45) 360deg);"></div>
+
+            <!-- Dynamic Threat Blips Plotted on Scope -->
+            <div id="radar-blips-container" class="absolute inset-0 pointer-events-auto"></div>
+
+            <!-- Center Pivot Sensor Node -->
+            <div class="relative w-4 h-4 rounded-full bg-cyan-400/90 border-2 border-white shadow-[0_0_12px_#22d3ee] flex items-center justify-center z-20 pointer-events-none">
+              <div class="w-1.5 h-1.5 rounded-full bg-black"></div>
+            </div>
+
+          </div>
+
+          <!-- Radar Legend -->
+          <div class="mt-3 flex items-center gap-3 text-[10px] font-mono text-slate-400">
+            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-rose-500"></span> Critical (70+)</span>
+            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-400"></span> Elevated (35-69)</span>
+            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-cyan-400"></span> Benign (&lt;35)</span>
+          </div>
+
+        </div>
+
+        <!-- Right: Trending Malicious Domains Cards (7 Cols) -->
+        <div class="lg:col-span-7 flex flex-col justify-between space-y-3">
+          
+          <div class="flex items-center justify-between pb-1">
+            <div class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                <line x1="12" y1="9" x2="12" y2="13"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+              <h3 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-200">
+                Top 5 Trending Malicious Domains
+              </h3>
+            </div>
+            <span class="text-[10px] font-mono text-slate-400 bg-white/5 px-2 py-0.5 rounded border border-white/5">
+              Ranked by Incident Frequency
+            </span>
+          </div>
+
+          <!-- Loading State -->
+          <div id="radar-loading" class="p-8 text-center space-y-2 rounded-xl bg-black/30 border border-white/5">
+            <svg class="w-6 h-6 animate-spin text-cyan-400 mx-auto" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" class="opacity-25"/><path d="M22 12a10 10 0 00-10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+            <p class="text-xs font-mono text-slate-400">Synchronizing global Threat Lake signals...</p>
+          </div>
+
+          <!-- Empty State -->
+          <div id="radar-empty" class="hidden p-8 text-center space-y-2 rounded-xl bg-black/30 border border-white/5">
+            <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 mx-auto flex items-center justify-center">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 8v4"/>
+                <path d="M12 16h.01"/>
+              </svg>
+            </div>
+            <p class="text-xs font-bold text-slate-300">Global Threat Lake Clear</p>
+            <p class="text-[11px] text-slate-500 max-w-sm mx-auto">No recurring malicious domains registered in the Threat Lake yet. Scan links to crowdsource active vectors.</p>
+          </div>
+
+          <!-- Trending Domains List Container -->
+          <div id="trending-domains-list" class="space-y-2.5">
+            <!-- Dynamically populated via app.js -->
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- THREAT INVESTIGATION RESULTS (Hidden until scan finishes) -->
+    <section id="results-command-center" class="hidden space-y-6">
+
+      <!-- 1. Executive Verdict & Directive Banner -->
+      <div id="verdict-banner-card" class="soc-card rounded-2xl p-6 relative overflow-hidden">
+        <div id="verdict-status-edge" class="absolute inset-y-0 left-0 w-2 bg-slate-600"></div>
+
+        <div class="flex flex-col lg:flex-row items-start justify-between gap-6 pl-2">
+          
+          <div class="flex items-start gap-4">
+            <div id="verdict-icon-container" class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+              <svg class="w-7 h-7 text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+
+            <div class="space-y-1.5">
+              <div class="flex flex-wrap items-center gap-2.5">
+                <h2 id="verdict-threat-type" class="text-2xl font-extrabold text-white tracking-tight">Threat Classification</h2>
+                <span id="verdict-brand-badge" class="hidden px-2.5 py-0.5 rounded-full text-xs font-mono font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30"></span>
+              </div>
+              <p id="verdict-recommended-action" class="text-base font-semibold text-slate-200"></p>
+              <p id="verdict-summary" class="text-sm text-slate-400 leading-relaxed pt-1"></p>
+            </div>
+          </div>
+
+          <!-- Execution Timestamp & Engine Tag -->
+          <div class="text-right shrink-0 text-xs font-mono text-slate-500 hidden sm:block">
+            <p id="telemetry-engine-tag">Engine: Gemini Flash</p>
+            <p id="telemetry-latency-tag">Latency: 0.0s</p>
+          </div>
+
+        </div>
+
+        <!-- Deceptive Red Flags Cloud -->
+        <div id="verdict-red-flags-container" class="mt-5 pt-4 border-t border-white/10 flex flex-wrap gap-2"></div>
+      </div>
+
+      <!-- 2. Dual Deep-Dive Matrix: Visual Forensic Anatomy & Redirect Topology -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- Visual Anatomy & Semantic Highlights (7 Cols) -->
+        <div class="lg:col-span-7 soc-card rounded-2xl p-6 flex flex-col justify-between space-y-4">
+          
+          <div>
+            <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+              <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <h3 class="text-sm font-bold uppercase tracking-wider text-slate-200">Visual Anatomy & Forensic Text Analysis</h3>
+              </div>
+
+              <!-- Color Legend -->
+              <div class="flex items-center gap-3 text-[11px] font-mono">
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-yellow-400"></span>Urgency</span>
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-rose-500"></span>Bad Link</span>
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-blue-500"></span>Social Eng.</span>
+              </div>
+            </div>
+
+            <!-- Decoded QR Indicator Banner -->
+            <div id="decoded-qr-banner" class="hidden mb-4 p-3 rounded-xl bg-purple-500/10 border border-purple-500/30 text-xs font-mono text-purple-200 flex items-center justify-between">
+              <div class="flex items-center gap-2 truncate">
+                <span class="font-bold uppercase text-purple-400">QR Decoded Payload:</span>
+                <span id="decoded-qr-text" class="truncate font-semibold"></span>
+              </div>
+              <span class="text-[10px] uppercase tracking-wider bg-purple-500/20 px-2 py-0.5 rounded">Quishing Vector</span>
+            </div>
+
+            <!-- Forensic Render Area with Dynamic Highlights -->
+            <div id="visual-anatomy-view" class="bg-black/50 border border-white/10 rounded-xl p-4 text-sm font-mono leading-relaxed text-slate-200 max-h-[360px] overflow-y-auto whitespace-pre-wrap select-text">
+            </div>
+          </div>
+
+          <!-- Highlight Breakdown Explanations -->
+          <div class="pt-3 border-t border-white/10">
+            <h4 class="text-xs font-mono uppercase tracking-wider text-slate-400 mb-2">Tactical Indicators Detected:</h4>
+            <div id="highlights-breakdown-list" class="space-y-2 max-h-[200px] overflow-y-auto pr-1"></div>
+          </div>
+
+        </div>
+
+        <!-- Infrastructure & Threat Intelligence Telemetry (5 Cols) -->
+        <div class="lg:col-span-5 soc-card rounded-2xl p-6 flex flex-col justify-between space-y-4">
+          
+          <div>
+            <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+              <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                </svg>
+                <h3 class="text-sm font-bold uppercase tracking-wider text-slate-200">Infrastructure & Threat Intel</h3>
+              </div>
+              <span id="urls-count-badge" class="text-xs font-mono px-2 py-0.5 rounded bg-white/5 border border-white/10 text-slate-400">0 Links</span>
+            </div>
+
+            <!-- URL Reports List -->
+            <div id="url-telemetry-container" class="space-y-4 max-h-[480px] overflow-y-auto pr-1">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+          <div class="text-[11px] font-mono text-slate-500 pt-2 border-t border-white/10">
+            Telemetry sourced via VirusTotal v3 and Google Safe Browsing Lookup v4 APIs.
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- 3. Autonomous Incident Response & Countermeasures Suite -->
+      <div class="soc-card rounded-2xl p-6 space-y-4">
+        
+        <div class="flex items-center justify-between border-b border-white/10 pb-3">
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+            <h3 class="text-sm font-bold uppercase tracking-wider text-slate-200">Autonomous Threat Countermeasures</h3>
+          </div>
+          <span class="text-xs font-mono text-slate-400">Active Defenses</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          
+          <!-- ACTION 1: Generate Safe Stall Reply -->
+          <button id="btn-stall-reply" class="p-4 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 hover:border-purple-500/50 text-left transition flex items-start gap-4 group">
+            <div class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-300 group-hover:scale-110 transition shrink-0">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-sm font-bold text-white flex items-center gap-2">
+                <span>Generate Safe Stall Reply</span>
+                <span id="stall-spinner" class="hidden"><svg class="w-3.5 h-3.5 animate-spin text-purple-400" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" class="opacity-25"/><path d="M22 12a10 10 0 00-10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span>
+              </p>
+              <p class="text-xs text-slate-400 mt-1">Autonomous AI Scam-Baiter: generate a believable time-wasting counter-response with zero sensitive data.</p>
+            </div>
+          </button>
+
+          <!-- ACTION 2: Copy Formal Abuse Report -->
+          <button id="btn-copy-abuse-report" class="p-4 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-500/50 text-left transition flex items-start gap-4 group">
+            <div class="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-300 group-hover:scale-110 transition shrink-0">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-sm font-bold text-white">Copy Registrar Abuse Report</p>
+              <p class="text-xs text-slate-400 mt-1">Format technical evidence into an ICANN/RFC compliant registrar and CERT incident takedown ticket.</p>
+            </div>
+          </button>
+
+          <!-- ACTION 3: Download One-Click SOC Incident PDF Report -->
+          <button id="btn-download-pdf-report" class="p-4 rounded-xl bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/30 hover:border-indigo-500/50 text-left transition flex items-start gap-4 group">
+            <div class="w-10 h-10 rounded-lg bg-indigo-500/20 flex items-center justify-center text-indigo-300 group-hover:scale-110 transition shrink-0">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 9 9 9 8 9"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-sm font-bold text-white flex items-center gap-2">
+                <span>Download PDF Report</span>
+              </p>
+              <p class="text-xs text-slate-400 mt-1">Export official SOC Forensic Incident Dossier with threat classification, risk scores &amp; URLs.</p>
+            </div>
+          </button>
+
+        </div>
+
+        <!-- STALL REPLY DRAWER / BOX -->
+        <div id="stall-reply-container" class="hidden mt-4 p-4 rounded-xl bg-black/40 border border-purple-500/30 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span>
+              <span class="text-xs font-mono font-bold uppercase tracking-wider text-purple-300">Scam-Bait Countermeasure Synthesized</span>
+            </div>
+
+            <!-- Strategy Selector Pills -->
+            <div class="flex flex-wrap items-center gap-1.5 p-1 bg-white/5 rounded-lg border border-white/10 text-xs font-mono">
+              <span class="text-[10px] text-slate-400 px-1 uppercase tracking-wider">Tactic:</span>
+              <button type="button" class="stall-tactic-btn px-2.5 py-0.5 rounded text-[11px] font-semibold bg-purple-500/30 text-purple-200 border border-purple-400/40 transition" data-strategy="technical_glitch">🛠️ Technical Glitch</button>
+              <button type="button" class="stall-tactic-btn px-2.5 py-0.5 rounded text-[11px] font-semibold text-slate-400 hover:text-white transition" data-strategy="bureaucracy">📋 Bureaucracy / ID</button>
+              <button type="button" class="stall-tactic-btn px-2.5 py-0.5 rounded text-[11px] font-semibold text-slate-400 hover:text-white transition" data-strategy="confused_customer">🙋 Curious Target</button>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button id="btn-regen-stall" class="px-2.5 py-1 text-xs font-mono bg-white/5 hover:bg-white/10 text-slate-300 rounded border border-white/10 transition">↻ Regenerate</button>
+              <button id="btn-copy-stall" class="px-2.5 py-1 text-xs font-mono bg-purple-500/20 hover:bg-purple-500/30 text-purple-200 rounded border border-purple-500/40 transition">Copy Response</button>
+            </div>
+          </div>
+          <p id="stall-reply-text" class="text-sm font-sans text-slate-200 leading-relaxed bg-purple-500/5 p-4 rounded-lg border border-purple-500/10"></p>
+        </div>
+
+        <!-- ABUSE REPORT DRAWER / BOX -->
+        <div id="abuse-report-container" class="hidden mt-4 p-4 rounded-xl bg-black/40 border border-cyan-500/30 space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+              <span class="text-xs font-mono font-bold uppercase tracking-wider text-cyan-300">Registrar Takedown Notice Generated</span>
+            </div>
+            <button id="btn-copy-abuse-text" class="px-2.5 py-1 text-xs font-mono bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-200 rounded border border-cyan-500/40 transition">Copy Email Template</button>
+          </div>
+          <pre id="abuse-report-text" class="text-xs font-mono text-slate-300 whitespace-pre-wrap bg-black/60 p-4 rounded-lg border border-white/5 max-h-60 overflow-y-auto"></pre>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Interactive Toast Notification Element -->
+  <div id="soc-toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none max-w-sm rounded-xl p-4 shadow-2xl backdrop-blur-xl border border-white/10 bg-sentinel-900/95 flex items-center gap-3">
+    <div id="toast-icon-box" class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"></div>
+    <div>
+      <p id="toast-title" class="text-xs font-bold text-white"></p>
+      <p id="toast-msg" class="text-xs text-slate-400 mt-0.5"></p>
+    </div>
+  </div>
+
+  <!-- Supabase Auth Modal -->
+  <div id="auth-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+    <!-- Backdrop -->
+    <div id="auth-modal-backdrop" class="fixed inset-0 bg-black/75 backdrop-blur-md transition-opacity"></div>
+
+    <!-- Modal Dialog Card -->
+    <div class="relative w-full max-w-md bg-sentinel-950 rounded-2xl border border-white/10 shadow-2xl p-6 sm:p-7 space-y-5 z-10">
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between border-b border-white/10 pb-4">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-500 p-[1px]">
+            <div class="w-full h-full bg-sentinel-950 rounded-[11px] flex items-center justify-center">
+              <svg class="w-4.5 h-4.5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-white tracking-wide">Sentinel Identity Access</h3>
+            <p class="text-[11px] text-slate-400">Authenticate via Supabase to track &amp; sync forensic scans</p>
+          </div>
+        </div>
+        <button id="auth-modal-close" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-white/5 transition">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Tab Switcher (Sign In vs Sign Up) -->
+      <div class="grid grid-cols-2 p-1 bg-black/40 rounded-xl border border-white/5 text-xs font-mono">
+        <button id="auth-tab-signin" type="button" class="py-2 rounded-lg font-bold transition text-white bg-indigo-600/40 border border-indigo-500/40">Sign In</button>
+        <button id="auth-tab-signup" type="button" class="py-2 rounded-lg font-medium transition text-slate-400 hover:text-white">Create Account</button>
+      </div>
+
+      <!-- Auth Form -->
+      <form id="auth-form" class="space-y-4">
+        <div>
+          <label class="block text-xs font-mono text-slate-400 uppercase tracking-wider mb-1.5" for="auth-email">Email Address</label>
+          <div class="relative">
+            <input id="auth-email" type="email" required placeholder="analyst@domain.com" class="w-full bg-black/50 border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 font-mono transition" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-mono text-slate-400 uppercase tracking-wider mb-1.5" for="auth-password">Password</label>
+          <div class="relative">
+            <input id="auth-password" type="password" required minlength="6" placeholder="••••••••" class="w-full bg-black/50 border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 font-mono transition" />
+          </div>
+        </div>
+
+        <!-- Auth Error Container -->
+        <div id="auth-error" class="hidden p-3 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-mono"></div>
+
+        <!-- Submit Button -->
+        <button id="auth-submit-btn" type="submit" class="w-full py-3 rounded-xl font-bold text-white text-sm bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 shadow-lg shadow-indigo-600/30 transition flex items-center justify-center gap-2">
+          <svg id="auth-submit-spinner" class="w-4 h-4 animate-spin hidden" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" class="opacity-25"/><path d="M22 12a10 10 0 00-10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+          <span id="auth-submit-label">Sign In to Sentinel</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Slide-over "Scan History" Drawer -->
+  <div id="history-drawer" class="hidden fixed inset-0 z-50 overflow-hidden">
+    <!-- Dark Backdrop -->
+    <div id="history-drawer-backdrop" class="absolute inset-0 bg-black/60 backdrop-blur-xs transition-opacity opacity-0 duration-300"></div>
+
+    <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+      <!-- Drawer Panel -->
+      <div id="history-drawer-panel" class="w-screen max-w-md bg-sentinel-950 border-l border-white/10 shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300 ease-in-out">
+        
+        <!-- Drawer Header -->
+        <div class="p-5 border-b border-white/10 flex items-center justify-between bg-black/30">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-white uppercase tracking-wider">Scan History</h3>
+              <p class="text-[11px] text-slate-400">Forensic Investigation Ledger</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-1">
+            <button id="history-refresh-btn" class="p-2 rounded-lg text-slate-400 hover:text-cyan-400 hover:bg-white/5 transition" title="Refresh History">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M23 4v6h-6"/>
+                <path d="M1 20v-6h6"/>
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+              </svg>
+            </button>
+            <button id="history-drawer-close" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition" title="Close Drawer">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Drawer Content Body -->
+        <div class="flex-1 overflow-y-auto p-5 space-y-3.5">
+          <!-- Loading State -->
+          <div id="history-loading" class="text-center py-12 space-y-3">
+            <svg class="w-6 h-6 animate-spin text-cyan-400 mx-auto" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" class="opacity-25"/><path d="M22 12a10 10 0 00-10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+            <p class="text-xs font-mono text-slate-400">Retrieving investigations...</p>
+          </div>
+
+          <!-- Empty State -->
+          <div id="history-empty" class="hidden text-center py-12 space-y-3">
+            <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-500 mx-auto">
+              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <circle cx="12" cy="14" r="2"/>
+              </svg>
+            </div>
+            <p class="text-xs font-bold text-slate-300">No Past Scans Found</p>
+            <p class="text-[11px] text-slate-500 max-w-xs mx-auto">Perform a scan while authenticated to build your private threat investigation ledger.</p>
+          </div>
+
+          <!-- History Item Cards List -->
+          <div id="history-items-container" class="space-y-2.5"></div>
+        </div>
+
+        <!-- Drawer Footer -->
+        <div class="p-3.5 border-t border-white/10 bg-black/40 flex items-center justify-between text-[11px] font-mono text-slate-500">
+          <span>Click any scan to restore &amp; inspect</span>
+          <div class="flex items-center gap-2">
+            <span id="history-total-count">0 items</span>
+            <div class="h-px w-px bg-white/20"></div>
+            <button id="export-csv-btn" class="px-2 py-1 rounded bg-white/5 hover:bg-white/10 text-slate-400 hover:text-cyan-400 transition" title="Export as CSV">CSV</button>
+            <button id="export-json-btn" class="px-2 py-1 rounded bg-white/5 hover:bg-white/10 text-slate-400 hover:text-cyan-400 transition" title="Export as JSON">JSON</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- jsPDF Library (UMD) for Incident Reporting -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- Supabase Client Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Client Application Logic -->
+  <script src="/sentinel.js"></script>
+</body>
+</html>

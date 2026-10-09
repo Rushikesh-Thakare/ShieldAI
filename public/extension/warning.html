@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <title>Site blocked · Shield AI</title>
+    <link rel="stylesheet" href="ui.css">
+  </head>
+  <body class="details-body">
+    <main class="details">
+      <header class="details-head">
+        <a class="brand" href="#"><span class="brand-mark">◇</span><span>SHIELD<span class="ai">AI</span></span></a>
+        <span class="blocked-tag"><i></i> SHIELD INTERCEPT</span>
+      </header>
+      <section class="details-hero">
+        <div class="details-shield">!</div>
+        <span class="kicker">A MOMENT BEFORE IT MATTERS</span>
+        <h1>We stopped this website.</h1>
+        <p>This address matches a dangerous-site rule in the Shield demo. The original page was prevented from loading.</p>
+      </section>
+      <div class="details-url"><span>⌑</span><strong id="blocked-url">Checking blocked address…</strong><span class="details-score">97 / 100</span></div>
+      <div id="evidence-list" class="evidence-list"></div>
+      <div class="details-actions">
+        <button id="return-safe" class="leave">Return to safety</button>
+        <button id="show-evidence" class="return">Why was I blocked?</button>
+      </div>
+      <p class="local-note">◇ Nothing was sent to a server. Shield made this decision on your device.</p>
+    </main>
+    <script type="module" src="details.js"></script>
+  </body>
+</html>

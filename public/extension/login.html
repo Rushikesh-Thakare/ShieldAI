@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <title>Connect Shield AI</title>
+    <link rel="stylesheet" href="ui.css">
+  </head>
+  <body class="details-body">
+    <main class="connect-card">
+      <a class="brand" href="#"><span class="brand-mark">◇</span><span>SHIELD<span class="ai">AI</span></span></a>
+      <span class="kicker">CONNECT YOUR ACCOUNT</span>
+      <h1>Sign in to Shield</h1>
+      <p>Use your Shield account to save browser checks to your private scan history.</p>
+      <form id="connect-form">
+        <label>Email address<input id="email" type="email" autocomplete="email" required></label>
+        <label>Password<input id="password" type="password" autocomplete="current-password" required></label>
+        <label>Shield API address<input id="api-base" type="url" value="http://localhost:3000" required></label>
+        <button id="connect-button" class="primary-button" type="submit">Connect account</button>
+      </form>
+      <p id="connect-message" role="status"></p>
+      <p class="local-note">Your password is sent to your configured Shield API for Supabase sign-in and is not stored by this extension. Use HTTPS for a remote API.</p>
+    </main>
+    <script type="module" src="login.js"></script>
+  </body>
+</html>

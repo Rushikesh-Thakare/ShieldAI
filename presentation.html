@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shield AI — Hackathon Presentation Pitch Deck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #070B16;
+      --card-bg: rgba(16, 24, 44, 0.85);
+      --card-border: rgba(30, 58, 102, 0.6);
+      --cyan: #00E5FF;
+      --blue: #00A3FF;
+      --green: #00E676;
+      --amber: #FFB300;
+      --red: #FF3D57;
+      --text: #F1F5F9;
+      --muted: #94A3B8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(0, 229, 255, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(0, 163, 255, 0.08) 0%, transparent 40%);
+    }
+
+    /* Presentation Frame (16:9 ratio) */
+    .deck-container {
+      width: 95vw;
+      max-width: 1366px;
+      height: 85vh;
+      max-height: 768px;
+      background: rgba(10, 15, 29, 0.7);
+      border: 1px solid rgba(0, 229, 255, 0.2);
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 229, 255, 0.05);
+      backdrop-filter: blur(12px);
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 40px 50px;
+      opacity: 0;
+      transform: translateX(40px) scale(0.98);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+      pointer-events: all;
+    }
+
+    /* Slide Header */
+    .slide-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .slide-tag {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--cyan);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .slide-tag::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: var(--cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--cyan);
+    }
+
+    .slide-title {
+      font-size: 32px;
+      font-weight: 800;
+      color: #FFF;
+      letter-spacing: -0.5px;
+      margin-bottom: 24px;
+      line-height: 1.2;
+    }
+
+    .slide-body {
+      flex: 1;
+      display: flex;
+      gap: 20px;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: var(--cyan);
+      transform: translateY(-2px);
+    }
+
+    .card.cyan-border { border-top: 3px solid var(--cyan); }
+    .card.blue-border { border-top: 3px solid var(--blue); }
+    .card.green-border { border-top: 3px solid var(--green); }
+    .card.amber-border { border-top: 3px solid var(--amber); }
+    .card.red-border { border-top: 3px solid var(--red); }
+
+    .card-title {
+      font-size: 19px;
+      font-weight: 700;
+      color: #FFF;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .stat-number {
+      font-size: 42px;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .card p, .card li {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    ul.bullets {
+      list-style: none;
+    }
+
+    ul.bullets li {
+      margin-bottom: 10px;
+      position: relative;
+      padding-left: 20px;
+    }
+
+    ul.bullets li::before {
+      content: '▹';
+      position: absolute;
+      left: 0;
+      color: var(--cyan);
+      font-weight: bold;
+    }
+
+    /* Slide 1 Hero */
+    .hero-title {
+      font-size: 56px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #FFF 40%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -1.5px;
+      margin-bottom: 10px;
+    }
+
+    .hero-subtitle {
+      font-size: 22px;
+      color: var(--cyan);
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    /* Diagram Slide */
+    .diagram-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Controls Bar */
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 95vw;
+      max-width: 1366px;
+      margin-top: 16px;
+      padding: 0 10px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      background: rgba(16, 24, 44, 0.9);
+      color: #FFF;
+      border: 1px solid var(--card-border);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn:hover {
+      background: var(--cyan);
+      color: #000;
+      border-color: var(--cyan);
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      margin: 0 20px;
+      border-radius: 2px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      width: 10%;
+      transition: width 0.3s ease;
+      box-shadow: 0 0 10px var(--cyan);
+    }
+
+    .slide-counter {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .mono-code {
+      font-family: 'JetBrains Mono', monospace;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      color: var(--cyan);
+      border-left: 2px solid var(--cyan);
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="deck-container">
+    <!-- SLIDE 1: HERO -->
+    <div class="slide active">
+      <div class="slide-meta">
+        <span class="slide-tag">TCET Hackathon 2026 // Cybersecurity Track</span>
+        <span class="slide-counter">01 / 11</span>
+      </div>
+      <h1 class="hero-title">SHIELD AI</h1>
+      <h2 class="hero-subtitle">Next-Generation In-Browser Phishing, Quishing & Homoglyph Countermeasure System</h2>
+      
+      <div class="slide-body" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+        <div class="card cyan-border">
+          <div class="card-title">⚡ On-Demand Squeeze UI</div>
+          <p>Sider AI-inspired physical viewport compression <code>calc(100% - 420px)</code> without popups blocking page forms.</p>
+        </div>
+        <div class="card blue-border">
+          <div class="card-title">👁️ Multimodal OCR & Quishing</div>
+          <p>Interactive Snipping Tool + 2D QR matrix decoding (<code>jsQR</code>) with Gemini 3.5/3.8 Flash visual brand verification.</p>
+        </div>
+        <div class="card red-border">
+          <div class="card-title">🎯 Brand Homoglyphs</div>
+          <p>Detection of deceptive lookalikes like <code>rnicrosoft.com</code> (<code>rn &rarr; m</code>) with locked 98/100 risk score floors.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: THE PROBLEM -->
+    <div class="slide">
+      <div class="slide-meta">
+        <span class="slide-tag">01 // The Threat Landscape</span>
+        <span class="slide-counter">02 / 11</span>
+      </div>
+      <h2 class="slide-title">Why Traditional Browser Defenses Fail in 2026</h2>
+      <div class="slide-body" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+        <div class="card red-border">
+          <div class="stat-number" style="color: var(--red);">3.4B</div>
+          <div class="card-title">Daily Phishing Scams</div>
+          <p>Attackers leverage LLMs to generate brand-accurate, context-rich lures with zero spelling errors.</p>
+          <div class="mono-code">Chrome blacklists have 8-48h latency</div>
+        </div>
+        <div class="card amber-border">
+          <div class="stat-number" style="color: var(--amber);">78%</div>
+          <div class="card-title">Quishing Explosion</div>
+          <p>Attackers embed malicious URLs inside QR codes in emails & flyers, completely bypassing text firewalls.</p>
+          <div class="mono-code">Text scanners cannot read pixels</div>
+        </div>
+        <div class="card cyan-border">
+          <div class="stat-number" style="color: var(--cyan);">0-Day</div>
+          <div class="card-title">Homoglyph Lookalikes</div>
+          <p>Domains like <code>rnicrosoft.com</code> look identical to Microsoft on retina displays and evade reputation databases.</p>
+          <div class="mono-code">Bypasses naive domain checks</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: THE SOLUTION -->
+    <div class="slide">
+      <div class="slide-meta">
+        <span class="slide-tag">02 // The Solution</span>
+        <span class="slide-counter">03 / 11</span>
+      </div>
+      <h2 class="slide-title">The Solution: An In-Browser Active Defense Agent</h2>
+      <div class="slide-body" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+        <div class="card cyan-border">
+          <div class="card-title">⚡ Zero-Distraction Squeeze Sidebar</div>
+          <p>Physically shrinks host page margin so users stay protected while maintaining 100% interactability with forms and buttons.</p>
+        </div>
+        <div class="card blue-border">
+          <div class="card-title">✂️ Interactive Snipping Tool</div>
+          <p>User drags a crosshair bounding box over suspicious forms or logos. Canvas crops the region and Gemini Vision evaluates fake brands.</p>
+        </div>
+        <div class="card green-border">
+          <div class="card-title">🔍 10-Hop Redirect Traversal</div>
+          <p>Traces shortlinks (bit.ly, tinyurl) up to 10 HTTP HEAD hops deep to find the unmasked destination server before scanning.</p>
+        </div>
+        <div class="card amber-border">
+          <div class="card-title">🤖 Active Countermeasures</div>
+          <p>Scam-Baiter Bot wastes attacker bandwidth with 3 friction personas; Recovery Wizard provides an actionable 4-step checklist.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: SQUEEZE SIDEBAR -->
+    <div class="slide">
+      <div class="slide-meta">
+        <span class="slide-tag">03 // Frontend Architecture</span>
+        <span class="slide-counter">04 / 11</span>
+      </div>
+      <h2 class="slide-title">Innovation 1: On-Demand "Squeeze" Sidebar UI</h2>
+      <div class="slide-body" style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px;">
+        <div class="card cyan-border">
+          <div class="card-title">Why the Squeeze Sidebar Model Wins</div>
+          <ul class="bullets">
+            <li><b>Zero Default Clutter:</b> Zero UI injected until explicitly toggled via launcher pill or icon.</li>
+            <li><b>Physical Viewport Squeeze:</b> <code>html.shield-squeeze-active</code> applies <code>width: calc(100% - 420px)</code> and <code>margin-right: 420px</code>.</li>
+            <li><b>0.28s Smooth Cubic-Bezier Transition:</b> No screen jarring or layout breakage.</li>
+            <li><b>Iframe Sandbox Security:</b> Security panel is hosted in an isolated iframe, preventing malicious host JS from tampering with Shield.</li>
+          </ul>
+        </div>
+        <div class="card blue-border" style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+          <div class="card-title" style="font-family: 'Outfit';">Viewport Diagram</div>
+          <pre style="color: var(--cyan); line-height: 1.4;">
++---------------------------+----------------+
+| HOST WEBPAGE              | SHIELD SIDEBAR |
+| width: calc(100% - 420px) | 420px fixed    |
+|                           |                |
+| Buttons and forms remain  | [Auto-Scan ON] |
+| 100% clickable            | [Scan Area]    |
+|                           |                |
+| [ Suspicious Login Form ] | RISK: 98/100   |
+|                           | [BLOCKED: RED] |
+|                           |                |
+|                           | Scam-Baiter    |
++---------------------------+----------------+
+          </pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: SNIPPING TOOL -->
+    <div class="slide">
+      <div class="slide-meta">
+        <span class="slide-tag">04 // Computer Vision</span>
+        <span class="slide-counter">05 / 11</span>
+      </div>
+      <h2 class="slide-title">Innovation 2: Interactive Snipping Tool & Vision OCR</h2>
+      <div class="slide-body" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;">
+        <div class="card cyan-border">
+          <div class="card-title">1. Trigger</div>
+          <p>User clicks "Scan Area". Content script dims screen and mounts custom crosshairs.</p>
+        </div>
+        <div class="card blue-border">
+          <div class="card-title">2. Canvas Crop</div>
+          <p>Background worker calls <code>captureVisibleTab</code> and crops sub-image coordinates in an offscreen canvas.</p>
+        </div>
+        <div class="card amber-border">
+          <div class="card-title">3. DOM Text</div>
+          <p>Harvests surrounding text nodes, button captions, and form input names within the bounding box.</p>
+        </div>
+        <div class="card green-border">
+          <div class="card-title">4. Gemini Vision</div>
+          <p>Gemini 3.5/3.8 Flash inspects fake logos, coercive countdown timers, and unverified password inputs.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: QUISHING & HOMOGLYPHS -->
+    <div class="slide">
+      <div class="slide-meta">
+        <span class="slide-tag">05 // Threat Intelligence</span>
+        <span class="slide-counter">06 / 11</span>
+      </div>
+      <h2 class="slide-title">Innovation 3: Quishing Defense & Typosquatting Engine</h2>
+      <div class="slide-body" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div class="card amber-border">
+          <div class="card-title">Quishing Matrix Decoder</div>
+          <ul class="bullets">
+            <li><b>Bitmap Decoding:</b> Jimp extracts RGBA pixel array; <code>jsQR</code> decodes position patterns directly.</li>
+            <li><b>Redirect Hopping:</b> Recursively unwraps shortlinks up to 10 hops to expose the real target.</li>
+            <li><b>Safety Precision:</b> Legitimate support QR codes receive <code>0 / 100</code>; fake KYC QR traps receive <code>98 / 100</code>.</li>
+          </ul>
+        </div>
+        <div class="card red-border">
+          <div class="card-title">Brand Homoglyph Engine</div>
+          <ul class="bullets">
+            <li><b>The <code>rn &rarr; m</code> Vulnerability:</b> <code>www.rnicrosoft.com</code> mimics Microsoft identically.</li>
+            <li><b>Substitution Engine:</b> Normalizes <code>rn &rarr; m</code>, <code>0 &rarr; o</code>, <code>1 &rarr; l</code>, and Punycode (<code>xn--</code>).</li>
+            <li><b>Enforced Evidence Floor:</b> Locks detected typosquatting domains at <b>98 / 100 (Critical Threat)</b>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: ARCHITECTURE DIAGRAM -->
+    <div class="slide">
+      <div class="slide-meta">
+        <span class="slide-tag">06 // System Architecture</span>
+        <span class="slide-counter">07 / 11</span>
+      </div>
+      <h2 class="slide-title">End-to-End System Workflow Architecture</h2>
+      <div class="slide-body" style="justify-content: center; align-items: center;">
+        <img class="diagram-img" src="user_workflow_diagram.jpg" alt="User Workflow Diagram" />
+      </div>
+    </div>
+
+    <!-- SLIDE 8: COUNTERMEASURES -->
+    <div class="slide">
+      <div class="slide-meta">
+        <span class="slide-tag">07 // Active Countermeasures</span>
+        <span class="slide-counter">08 / 11</span>
+      </div>
+      <h2 class="slide-title">Beyond Detection: Active Defense & Recovery</h2>
+      <div class="slide-body" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+        <div class="card cyan-border">
+          <div class="card-title">💬 Ask Shield Copilot</div>
+          <p>Context-aware security assistant that explains threats in plain English. Multi-tier failover: Gemini &rarr; Groq &rarr; Client-side heuristics.</p>
+        </div>
+        <div class="card blue-border">
+          <div class="card-title">🤖 Autonomous Scam-Baiter Bot</div>
+          <p>Wastes scammer bandwidth safely using 3 friction personas: <i>Technical Glitch</i>, <i>Bureaucracy</i>, and <i>Confused Customer</i>.</p>
+        </div>
+        <div class="card green-border">
+          <div class="card-title">📋 Account Recovery Wizard</div>
+          <p>Structured 4-step checklist (Disconnect &rarr; Reset &rarr; Hardware 2FA &rarr; Device Audit) synced persistently with Supabase.</p>
+        </div>
+        <div class="card red-border">
+          <div class="card-title">📑 Forensic SOC PDF Export</div>
+          <p>Client-side vector generation (<code>jsPDF</code>) compiling timestamps, 10-hop redirect chains, and AV consensus logs for IT compliance.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9: VERIFICATION BENCHMARKS -->
+    <div class="slide">
+      <div class="slide-meta">
+        <span class="slide-tag">08 // Empirical Validation</span>
+        <span class="slide-counter">09 / 11</span>
+      </div>
+      <h2 class="slide-title">Rigorous Verification: 100% Pass Benchmarks</h2>
+      <div class="slide-body" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+        <div class="card green-border">
+          <div class="stat-number" style="color: var(--green);">15 / 15</div>
+          <div class="card-title">Visual Benchmark Passed</div>
+          <p><code>scripts/verify-15-images.js</code><br>• 5 Safe: 0/100 (Google in Gmail)<br>• 5 Sus: 45-60/100 (Urgent surveys)<br>• 5 Threat: 98/100 (rnicrosoft.com, KYC)</p>
+        </div>
+        <div class="card cyan-border">
+          <div class="stat-number" style="color: var(--cyan);">8 / 8</div>
+          <div class="card-title">QR Matrix Tests Passed</div>
+          <p><code>scripts/verify-qr-suite.js</code><br>Tested authentic PNG bitmaps. 100% accuracy in distinguishing legitimate support from quishing payloads.</p>
+        </div>
+        <div class="card blue-border">
+          <div class="stat-number" style="color: var(--blue);">19 / 19</div>
+          <div class="card-title">API Unit & Integration Tests</div>
+          <p><code>test/api.test.js</code><br>Express endpoints, redirect limiters, typosquatting regex logic, and Supabase Row-Level Security data privacy.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10: TEAM ROLES -->
+    <div class="slide">
+      <div class="slide-meta">
+        <span class="slide-tag">09 // Team Execution</span>
+        <span class="slide-counter">10 / 11</span>
+      </div>
+      <h2 class="slide-title">Engineering Team: 4 Specialized Pillars</h2>
+      <div class="slide-body" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;">
+        <div class="card green-border" style="padding: 16px;">
+          <div class="card-title" style="color: var(--green); font-size: 16px;">MEMBER 1</div>
+          <p style="font-weight: 700; color: #FFF; margin-bottom: 6px; font-size: 13px;">Team Lead & Architect</p>
+          <ul class="bullets" style="font-size: 11.5px;">
+            <li>2026 Phishing Crisis story</li>
+            <li>Squeeze Viewport Engine</li>
+            <li>Iframe Sandbox Isolation</li>
+            <li>Live Demo Orchestration</li>
+          </ul>
+        </div>
+        <div class="card cyan-border" style="padding: 16px;">
+          <div class="card-title" style="color: var(--cyan); font-size: 16px;">MEMBER 2</div>
+          <p style="font-weight: 700; color: #FFF; margin-bottom: 6px; font-size: 13px;">Extension & Vision Lead</p>
+          <ul class="bullets" style="font-size: 11.5px;">
+            <li>Manifest V3 Service Worker</li>
+            <li>Interactive Snipping Tool</li>
+            <li>Offscreen Canvas sub-crop</li>
+            <li>Gemini 3.5/3.8 Flash Vision</li>
+          </ul>
+        </div>
+        <div class="card blue-border" style="padding: 16px;">
+          <div class="card-title" style="color: var(--blue); font-size: 16px;">MEMBER 3</div>
+          <p style="font-weight: 700; color: #FFF; margin-bottom: 6px; font-size: 13px;">Threat Intel & Networks</p>
+          <ul class="bullets" style="font-size: 11.5px;">
+            <li>10-hop redirect tracer</li>
+            <li>VirusTotal 70+ AV engines</li>
+            <li>Homoglyphs (rn &rarr; m)</li>
+            <li>Evidence floor (98/100)</li>
+          </ul>
+        </div>
+        <div class="card amber-border" style="padding: 16px;">
+          <div class="card-title" style="color: var(--amber); font-size: 16px;">MEMBER 4</div>
+          <p style="font-weight: 700; color: #FFF; margin-bottom: 6px; font-size: 13px;">Defense & Incident Response</p>
+          <ul class="bullets" style="font-size: 11.5px;">
+            <li>Quishing QR Matrix Decoder</li>
+            <li>Supabase PostgreSQL RLS</li>
+            <li>Autonomous Scam-Baiter Bot</li>
+            <li>Forensic SOC PDF Export</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 11: CONCLUSION -->
+    <div class="slide">
+      <div class="slide-meta">
+        <span class="slide-tag">10 // Conclusion & Live Demo</span>
+        <span class="slide-counter">11 / 11</span>
+      </div>
+      <h2 class="slide-title">Ready for Live Demonstration</h2>
+      <div class="slide-body" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div class="card cyan-border">
+          <div class="card-title">Why Shield AI Wins</div>
+          <ul class="bullets">
+            <li><b>Zero Latency:</b> Visual OCR & redirect tracing catch 0-day attacks before blacklists index them.</li>
+            <li><b>Frictionless UX:</b> Viewport squeezing ensures users never turn it off.</li>
+            <li><b>Commercial Readiness:</b> Manifest V3 extension, Vite web console, and verified APIs.</li>
+            <li><b>Enterprise Security:</b> PostgreSQL RLS data privacy & forensic PDF exports.</li>
+          </ul>
+        </div>
+        <div class="card blue-border" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+          <h3 style="font-size: 38px; color: #FFF; margin-bottom: 10px;">Thank You, Judges!</h3>
+          <p style="color: var(--cyan); font-weight: 600; margin-bottom: 16px;">We are ready to take your questions and run live scans.</p>
+          <div class="mono-code" style="text-align: left;">
+            GitHub: github.com/AAKU2107/TCET-hackathon<br>
+            Web: Live on Vercel & localhost:3000
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTROLS BAR -->
+  <div class="controls">
+    <div class="btn-group">
+      <button class="btn" id="prevBtn">◂ Previous</button>
+      <button class="btn" id="nextBtn">Next ▸</button>
+    </div>
+
+    <div class="progress-track">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="btn-group">
+      <span class="slide-counter" id="indicator" style="margin-right: 10px; align-self: center;">1 / 11</span>
+      <button class="btn" id="fsBtn">⛶ Fullscreen</button>
+    </div>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const fsBtn = document.getElementById('fsBtn');
+    const progressBar = document.getElementById('progressBar');
+    const indicator = document.getElementById('indicator');
+
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+
+    function showSlide(index) {
+      if (index < 0) index = 0;
+      if (index >= totalSlides) index = totalSlides - 1;
+      currentSlide = index;
+
+      slides.forEach((s, i) => {
+        s.classList.toggle('active', i === currentSlide);
+      });
+
+      const pct = ((currentSlide + 1) / totalSlides) * 100;
+      progressBar.style.width = pct + '%';
+      indicator.textContent = (currentSlide + 1) + ' / ' + totalSlides;
+    }
+
+    prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
+    nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        showSlide(currentSlide + 1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        showSlide(currentSlide - 1);
+      } else if (e.key.toLowerCase() === 'f') {
+        toggleFullscreen();
+      }
+    });
+
+    fsBtn.addEventListener('click', toggleFullscreen);
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => console.log(err));
+      } else {
+        document.exitFullscreen().catch(err => console.log(err));
+      }
+    }
+
+    showSlide(0);
+  </script>
+</body>
+</html>

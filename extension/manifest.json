@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Sentinel — AI Phishing & Scam Scanner",
+  "version": "3.0.0",
+  "description": "Instant AI threat analysis for active web pages and webmail. Powered by Gemini AI, VirusTotal, and Google Safe Browsing.",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Sentinel AI Threat Scanner"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "http://localhost:3000/*"
+  ]
+}
